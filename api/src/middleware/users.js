@@ -13,4 +13,10 @@ export default class Users {
     const { validateAll, authAll } = Users.middleware('signUp');
     return middleware.routeCallbacks(validateAll, authAll);
   }
+
+  static signin() {
+    const { validateAll, authAll } = this.middleware('signIn');
+    const authPassword = authenticateUsers.verifyPassword.bind(authenticateUsers);
+    return middleware.routeCallbacks(validateAll, authAll, authPassword);
+  }
 }

@@ -1,6 +1,6 @@
 import database from '../db/pgConnect';
 import token from '../helpers/jwt';
-// import authenticateUsers from '../auth/users';
+import authenticateUsers from '../auth/users';
 import protocol from '../helpers/response';
 import models from '../models/users';
 import Queries from '../helpers/queries';
@@ -13,5 +13,12 @@ export default class Users {
     const signUpRes = await models.createUserDataResPostgre(newUser);
     const newToken = await token.generate(newUser.id);
     return protocol.auth201Res(res, signUpRes, newToken);
+  }
+
+  static async signIn(req, res) {
+    const { verifyUser } = authenticateUsers;
+    const signInRes = await models.createUserDataResPostgre(verifyUser);
+    const newToken = await token.generate(verifyUser.id);
+    return protocol.auth200Res(res, signInRes, newToken);
   }
 }

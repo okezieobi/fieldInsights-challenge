@@ -1,14 +1,15 @@
+/* eslint-disable camelcase */
 import protocol from '../helpers/response';
 import database from '../db/pgConnect';
 import Errors from '../helpers/errors';
-// import test from '../helpers/regex';
+import test from '../helpers/regex';
 import Queries from '../helpers/queries';
-// import jwt from '../helpers/jwt';
+import jwt from '../helpers/jwt';
 import bcrypt from '../helpers/bcrypt';
 
 export default class AuthenticateUsers {
-  static async authEmailUsername(req) {
-    const { username, email } = req.body;
+  static async authEmailUsername({ body }) {
+    const { username, email } = body;
     const findUserQuery = Queries.findUserByEmailOrUsername();
     const user = await database.queryOneORNone(findUserQuery, [email, username]);
     return user;
@@ -26,11 +27,36 @@ export default class AuthenticateUsers {
     return next();
   }
 
-  static async verifyPassword(req, res, next) {
-    const { password } = req.body;
+  static async verifyPassword({ body }, res, next) {
+    const { password } = body;
     const { verifyUser } = this;
     const verifyPassword = await bcrypt.compare(verifyUser.password, password);
     if (!verifyPassword) protocol.err400Res(res, Errors.wrongPassword());
+    else next();
+  }
+
+  static async authToken({ headers }, res, next) {
+    const { token } = headers;
+    if (!token) return protocol.err400Res(res, Errors.tokenIsRequired());
+    const verifyToken = await jwt.verify(token);
+    // @ts-ignore
+    const { userId, message, name } = verifyToken;
+    if (name || message) return protocol.err400Res(res, { name, message }); // jwt error
+    const checkId = await test.checkInteger(userId);
+    if (!checkId) return protocol.err400Res(res, Errors.invalidToken());
+    this.user_id = userId;
+    return next();
+  }
+
+  static async authenticateAll(req, res, next) {
+    this.findUser = await database.queryOneORNone(Queries.findUserById(), [this.user_id]);
+    if (!this.findUser) return protocol.err404Res(res, Errors.wrongToken());
+    return next();
+  }
+
+  static admin(req, res, next) {
+    const { is_admin } = this.findUser;
+    if (!is_admin) protocol.err400Res(res, Errors.restrictedAccess('admin'));
     else next();
   }
 }

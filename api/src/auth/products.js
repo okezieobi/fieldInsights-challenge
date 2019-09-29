@@ -9,7 +9,7 @@ export default class Products {
     const { name } = body;
     const findProductQuery = Queries.findProductByName();
     const findProduct = await database.queryOneORNone(findProductQuery, name);
-    if (findProduct) protocol.err400Res(Errors.dataFound('This item'));
+    if (findProduct) protocol.err404Res(res, Errors.dataFound('This item'));
     else next();
   }
 }

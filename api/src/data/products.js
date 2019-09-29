@@ -4,10 +4,11 @@ import checkRequest from '../helpers/requests';
 
 export default class Products {
   static create({ body }, res, next) {
-    const { name, price } = body;
-    const nameErr = checkRequest.validateLetters(name, 'Product name');
-    const priceErr = checkRequest.validateNumber(price, 'Product number');
-    const findErr = checkRequest.findError(nameErr, priceErr);
+    const { name, price, quantity } = body;
+    const nameErr = checkRequest.validateUsername(name, 'Product name');
+    const priceErr = checkRequest.validateNumber(price, 'Product price');
+    const quantityErr = checkRequest.validateInteger(quantity, 'Product quantity');
+    const findErr = checkRequest.findError(nameErr, priceErr, quantityErr);
     if (findErr) protocol.err400Res(res, findErr);
     else next();
   }

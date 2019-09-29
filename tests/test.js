@@ -25,10 +25,19 @@ export default class Test {
   static generateToken(id) {
     return token.generate(id);
   }
+
+  static getRandomArrayIndex(array) {
+    return Math.floor(Math.random() * array.length);
+  }
+
+  static returnRandomValue(...values) {
+    return values[this.getRandomArrayIndex(values)];
+  }
 }
 
 require('./users/signup');
 require('./users/signin');
+require('./products/createOne');
 
 export {
   expect,

@@ -2,10 +2,10 @@ import protocol from '../helpers/response';
 import checkRequest from '../helpers/requests';
 
 export default class ValidateUserRequest {
-  static signUp(req, res, next) {
+  static signUp({ body }, res, next) {
     const {
       fullName, email, password, username,
-    } = req.body;
+    } = body;
     const fullNameErr = checkRequest.validateLetters(fullName, 'Full name');
     const emailErr = checkRequest.checkEmailFormat(email, 'Email');
     const passwordErr = checkRequest.checkPassword(password, 'Password');
@@ -15,8 +15,8 @@ export default class ValidateUserRequest {
     else next();
   }
 
-  static signIn(req, res, next) {
-    const { username, email, password } = req.body;
+  static signIn({ body }, res, next) {
+    const { username, email, password } = body;
     let checkUserData;
     if (!username && !email) checkUserData = checkRequest.validateLetters(false, 'Username or email');
     else if (username) checkUserData = checkRequest.validateUsername(username, 'Username');

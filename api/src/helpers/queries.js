@@ -10,4 +10,12 @@ export default class Queries {
   static findUserByEmailOrUsername() {
     return 'SELECT * FROM users WHERE email = $1 OR username = $2';
   }
+
+  static findProductByName() {
+    return 'SELECT * FROM products WHERE name = $1';
+  }
+
+  static createProduct() {
+    return 'INSERT INTO products(id, name, price, quantity) VALUES ($1, $2, $3, $4) RETURNING *';
+  }
 }

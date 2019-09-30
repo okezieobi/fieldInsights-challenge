@@ -1,0 +1,28 @@
+paths:
+  /products/:                # path of the user from your endpoint
+    post:                 # endpoint request type (post request)
+      tags:               # Tag property
+        - Product            # Value of the tag
+      summary: create a new product data as an authenticated Admin
+      security:
+       - ApiKeyAuth: []
+         requestBody:
+         required: true
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:          # server responses
+        201:
+          description: An object with product details
+components:        # Schema definition for request body
+ schemas:
+  Bus:
+    type: object
+    properties:
+          name:
+            type: string
+          price:
+            type: string
+          quantity:
+            type: string

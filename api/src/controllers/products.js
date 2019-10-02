@@ -1,6 +1,6 @@
 import database from '../db/pgConnect';
 import models from '../models/products';
-import Queries from '../helpers/queries';
+import Queries from '../queries/products';
 import protocol from '../helpers/response';
 
 export default class Products {

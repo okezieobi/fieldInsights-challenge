@@ -3,7 +3,7 @@ import protocol from '../helpers/response';
 import database from '../db/pgConnect';
 import Errors from '../helpers/errors';
 import test from '../helpers/regex';
-import Queries from '../helpers/queries';
+import Queries from '../queries/users';
 import jwt from '../helpers/jwt';
 import bcrypt from '../helpers/bcrypt';
 

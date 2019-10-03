@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import numbers from '../helpers/uniqueNos';
+import commonModel from './model';
 
 export default class Products {
   static requestData({ name, price, quantity }) {
@@ -15,5 +16,10 @@ export default class Products {
       price: parseFloat(price),
       quantity: parseInt(quantity, 10),
     };
+  }
+
+  static responseDataArray(array) {
+    if (array) return commonModel.modifyArray(array, Products.responseData);
+    return array;
   }
 }

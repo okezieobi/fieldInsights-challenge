@@ -6,4 +6,8 @@ export default class Products {
   static createProduct() {
     return 'INSERT INTO products(id, name, price, quantity) VALUES ($1, $2, $3, $4) RETURNING *';
   }
+
+  static getAllProducts() {
+    return 'SELECT * FROM products';
+  }
 }

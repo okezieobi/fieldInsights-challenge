@@ -38,14 +38,14 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.header).to.have.property('token').to.be.a('string');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if username is undefined', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if username is undefined or an empty string or null', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
       password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.username = undefined;
+    testData.username = Test.returnRandomValue(undefined, '', null);
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');
@@ -66,36 +66,6 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.be.an('object');
     expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username must be string type');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if username is an empty string', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.username = '';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if username is null', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.username = null;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username is required');
   });
 
   it('Should NOT create a User at "/api/v1/auth/signup" if username is not sent', async () => {
@@ -128,14 +98,14 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username must be letters and numbers');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name is undefined', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user first name is undefined or an empty string or null', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
       password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.fullName = undefined;
+    testData.fullName = Test.returnRandomValue(undefined, '', null);
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');
@@ -156,36 +126,6 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.be.an('object');
     expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name must be string type');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name is an empty string', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.fullName = '';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name is null', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.fullName = null;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
   });
 
   it('Should NOT create a User at "/api/v1/auth/signup" if user first name does not exist', async () => {
@@ -218,14 +158,14 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name must be letters');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email is undefined', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user email is undefined or an empty string or null', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
       password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.email = undefined;
+    testData.email = Test.returnRandomValue(undefined, '', null);
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');
@@ -246,37 +186,6 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.be.an('object');
     expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email must be string type');
-  });
-
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email is an empty string', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.email = '';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email is null', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.email = null;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email is required');
   });
 
   it('Should NOT create a User at "/api/v1/auth/signup" if user email does not exist', async () => {
@@ -324,14 +233,14 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('User exists, please sign in with email or username');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is undefined', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user password is undefined or null or an empty string', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
       password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.password = undefined;
+    testData.password = Test.returnRandomValue(undefined, '', null);
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');
@@ -354,36 +263,6 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password must be string type');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is an empty string', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = '';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is null', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = null;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password is required');
-  });
-
   it('Should NOT create a User at "/api/v1/auth/signup" if user password does not exist', async () => {
     const testData = {
       fullName: 'Frank',
@@ -399,74 +278,14 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is not a minimum of 8 characters', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user password is not a minimum of 8 characters and has at least one uppercase letter, lowercase letter,  number and one special character', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
       password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.password = '1OdBcd!';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password must be eight characters minimum, at least one uppercase letter, one lowercase letter, one number and one special character');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password does not have at least 1 upper case letter', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = '1234aodbcd!';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password must be eight characters minimum, at least one uppercase letter, one lowercase letter, one number and one special character');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password does not have at least 1 lower case letter', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = '1234AODBCD!';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password must be eight characters minimum, at least one uppercase letter, one lowercase letter, one number and one special character');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password does not have at least 1 number', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = 'odedeAODBCD!';
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password must be eight characters minimum, at least one uppercase letter, one lowercase letter, one number and one special character');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password does not have at least 1 special character', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = 'odedeAODBCD123';
+    testData.password = Test.returnRandomValue('1OdBcd!', '1234aodbcd!', '1234AODBCD!', 'odedeAODBCD!', 'odedeAODBCD123');
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');

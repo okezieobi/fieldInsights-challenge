@@ -1,0 +1,11 @@
+paths:
+  /products/:                # path of the user from your endpoint
+    get:                 # endpoint request type (post request)
+      tags:               # Tag property
+        - Products            # Value of the tag
+      summary: get all product data as an authenticated Admin
+      security:
+        - ApiKeyAuth: []
+      responses:          # server responses
+        200:
+          description: An array of objects with product details

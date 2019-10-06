@@ -25,6 +25,10 @@ export default class Protocol {
     return this.response(res, 404, 'error', err404Message);
   }
 
+  static err403Res(res, err404Message) {
+    return this.response(res, 403, 'error', err404Message);
+  }
+
   static success200Res(res, success200Data) {
     return this.response(res, 200, 'data', success200Data);
   }

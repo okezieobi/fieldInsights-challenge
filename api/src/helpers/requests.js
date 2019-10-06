@@ -1,5 +1,6 @@
 import regexTest from './regex';
-import Errors from './errors';
+import templateErrors from '../errors/templateLiterals';
+import literalErrors from '../errors/stringLiterals';
 
 export default class RequestCheck {
   static checkRequest(request, testRequest, errRequired, errIsString, testErrMessage) {
@@ -23,18 +24,18 @@ export default class RequestCheck {
 
   static processErrs(request, title, test, error) {
     const testRequest = regexTest[test](request);
-    const errIsRequired = Errors.isRequired(title);
-    const errIsString = Errors.isStringType(title);
+    const errIsRequired = templateErrors.isRequired(title);
+    const errIsString = templateErrors.isStringType(title);
     return this.checkRequest(request, testRequest, errIsRequired, errIsString, error);
   }
 
   static checkAllErrors(request, title, test, error) {
-    const testErrMessage = Errors[error](title);
+    const testErrMessage = templateErrors[error](title);
     return this.processErrs(request, title, test, testErrMessage);
   }
 
   static checkAllErrorsNoTitle(request, title, test, error) {
-    const testErrMessage = Errors[error]();
+    const testErrMessage = literalErrors[error]();
     return this.processErrs(request, title, test, testErrMessage);
   }
 

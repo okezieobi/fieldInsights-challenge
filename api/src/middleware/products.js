@@ -11,4 +11,9 @@ export default class Products {
       .bind(authenticateProductData);
     return middleware.routeCallbacks(validateData, authToken, authAll, authAdmin, authenticateData);
   }
+
+  static getAll() {
+    const { authToken, authAll } = authenticateUsers.authUsers();
+    return middleware.routeCallbacks(authToken, authAll);
+  }
 }

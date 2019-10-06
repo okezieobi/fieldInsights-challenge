@@ -322,4 +322,89 @@ describe('Test endpoint at "/api/v1/products/" to create a product as an authent
     expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Product quantity must be a positive integer');
   });
+
+  it('Should not create a product at "/api/v1/products" as an authenticated Admin with POST if token is an empty string', async () => {
+    const testData = {
+      name: 'Playstation 5',
+      price: '1500.00',
+      quantity: '20',
+    };
+    const token = '';
+    const response = await chai.request(app).post('/api/v1/products').set('token', token).send(testData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Token is required, please sign in or sign up');
+  });
+
+  it('Should not create a product at "/api/v1/products" as an authenticated Admin with POST if token is not sent', async () => {
+    const testData = {
+      name: 'Playstation 5',
+      price: '1500.00',
+      quantity: '20',
+    };
+    const response = await chai.request(app).post('/api/v1/products').send(testData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Token is required, please sign in or sign up');
+  });
+
+  it('Should not create a product at "/api/v1/products" as an authenticated Admin with POST if token is an invalid', async () => {
+    const testData = {
+      name: 'Playstation 5',
+      price: '1500.00',
+      quantity: '20',
+    };
+    const token = 3445676566;
+    const response = await chai.request(app).post('/api/v1/products').set('token', token).send(testData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
+    expect(response.body).to.have.property('error').to.be.a('object');
+    expect(response.body.error).to.have.property('name').to.be.a('string');
+    expect(response.body.error).to.have.property('message').to.be.a('string');
+  });
+
+  it('Should not create a product at "/api/v1/products" as an authenticated Admin with POST if token does not match any user', async () => {
+    const testData = {
+      name: 'Playstation 5',
+      price: '1500.00',
+      quantity: '20',
+    };
+    const token = await Test.generateToken('5050505050000');
+    const response = await chai.request(app).post('/api/v1/products').set('token', token).send(testData);
+    expect(response).to.have.status(404);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(404);
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Token provided does not match any user');
+  });
+
+  it('Should not create a product at "/api/v1/products" as an authenticated Admin with POST if token does not match the Admin', async () => {
+    const testData = {
+      name: 'Playstation 5',
+      price: '1500.00',
+      quantity: '20',
+    };
+    const token = await Test.generateToken('1010101010101');
+    const response = await chai.request(app).post('/api/v1/products').set('token', token).send(testData);
+    expect(response).to.have.status(403);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(403);
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Only admin can access this resource');
+  });
+
+  it('Should not create a product at "/api/v1/products" as an authenticated Admin with POST if id from token is a floating point or negative integer or floating point number', async () => {
+    const testData = {
+      name: 'Playstation 5',
+      price: '1500.00',
+      quantity: '20',
+    };
+    const token = await Test.generateToken(Test.returnRandomValue('505050.5050505', '-505050.5050505', '-5050505050505'));
+    const response = await chai.request(app).post('/api/v1/products').set('token', token).send(testData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Id from token is not a positive integer');
+  });
 });

@@ -3,7 +3,7 @@ import token from '../helpers/jwt';
 import authenticateUsers from '../auth/users';
 import protocol from '../helpers/response';
 import models from '../models/users';
-import Queries from '../helpers/queries';
+import Queries from '../queries/users';
 
 export default class Users {
   static async signUp({ body }, res) {

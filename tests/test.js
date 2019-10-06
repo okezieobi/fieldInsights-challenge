@@ -38,6 +38,7 @@ export default class Test {
 require('./users/signup');
 require('./users/signin');
 require('./products/createOne');
+require('./products/getAll');
 
 export {
   expect,

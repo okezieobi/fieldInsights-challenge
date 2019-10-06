@@ -39,9 +39,7 @@ export default class AuthenticateUsers {
   static async authToken({ headers }, res, next) {
     const { token } = headers;
     if (!token) return protocol.err400Res(res, literalErrors.tokenIsRequired());
-    const verifyToken = await jwt.verify(token);
-    // @ts-ignore
-    const { userId, message, name } = verifyToken;
+    const { userId, message, name } = await jwt.verify(token);
     if (name || message) return protocol.err400Res(res, { name, message }); // jwt error
     const checkId = await test.checkInteger(userId);
     if (!checkId) return protocol.err400Res(res, literalErrors.invalidToken());
@@ -57,7 +55,7 @@ export default class AuthenticateUsers {
 
   static admin(req, res, next) {
     const { is_admin } = this.findUser;
-    if (!is_admin) protocol.err400Res(res, templateErrors.restrictedAccess('admin'));
+    if (!is_admin) protocol.err403Res(res, templateErrors.restrictedAccess('admin'));
     else next();
   }
 }
